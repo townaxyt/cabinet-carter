@@ -489,7 +489,7 @@ footer .in{max-width:1080px;margin:0 auto;display:grid;gap:.3rem}
           <h2>Assistant du code pénal</h2>
           <p class="muted small" style="max-width:70ch">Pose ta question comme en jeu. L'assistant lit le texte intégral du code à chaque question, répond uniquement à partir de celui-ci et cite les articles exacts. Clique sur une référence (<span class="mono">Art. 81.3</span>) pour ouvrir l'article. Les réponses sont comptées sur ton propre compte Claude.</p>
         </div>
-        <button class="btn ghost sm" id="resetChat" type="button">Nouvelle conversation</button>
+        <div class="row"><button class="btn ghost sm" type="button" data-eco aria-pressed="true" title="Activée : n'envoie que les parties du code utiles à la question et utilise le modèle rapide. Désactivée : envoie tout le code à chaque question.">Économie de quota : activée</button><button class="btn ghost sm" id="resetChat" type="button">Nouvelle conversation</button></div>
       </div>
       <div id="aiUnavailable" class="notice" hidden>
         <b>Assistant indisponible ici.</b>
@@ -943,7 +943,7 @@ footer .in{max-width:1080px;margin:0 auto;display:grid;gap:.3rem}
   <div class="in">
     <span>Source : <a href="https://sensityliferp.io/wiki/code-penal-de-letat-de-san-andreas" target="_blank" rel="noopener">wiki Sensity — Code pénal de l'État de San Andreas</a>, rédigé par baphomet__, mis à jour le 17 octobre 2026.</span>
     <span>Outil d'aide à la lecture, non officiel. En cas de divergence, le wiki fait foi. Pense à vérifier la date de mise à jour du wiki : ce texte a été transcrit le 25 octobre 2026.</span>
-    <span>Cabinet Carter · <button type="button" class="logout" id="logout">Se déconnecter de cet appareil</button> <span id="apiKeyFoot" hidden>· <button type="button" class="logout" id="apiKeyBtn">Changer ma clé API</button></span></span>
+    <span>Cabinet Carter · <button type="button" class="logout" id="logout">Se déconnecter de cet appareil</button> · <button type="button" class="logout" data-eco>Économie de quota : activée</button> <span id="apiKeyFoot" hidden>· <button type="button" class="logout" id="apiKeyBtn">Changer ma clé API</button></span></span>
   </div>
 </footer>
 
@@ -2256,9 +2256,9 @@ $("#mandats").innerHTML = MANDATS.map(m => `<div class="mandat"><div class="row"
 })();
 
 /* ================= ASSISTANT IA ================= */
-function buildCodeText(){
-  let out = `CODE PÉNAL DE L'ÉTAT DE SAN ANDREAS (Sensity Life RP) — version du ${SOURCE.updated}, rédigé par ${SOURCE.author}\n`;
-  BOOKS.forEach(book => {
+function buildCodeText(keep){
+  let out = keep ? "" : `CODE PÉNAL DE L'ÉTAT DE SAN ANDREAS (Sensity Life RP) — version du ${SOURCE.updated}, rédigé par ${SOURCE.author}\n`;
+  BOOKS.filter(b => !keep || keep(b)).forEach(book => {
     out += `\n# ${book.title}\n`;
     if (book.note) out += book.note + "\n";
     book.titres.forEach(titre => {
@@ -2280,7 +2280,9 @@ function buildCodeText(){
   return out;
 }
 const CODE_TEXT = buildCodeText();
-const RULES = `Tu es l'assistant du Code pénal de l'État de San Andreas, pour le serveur GTA RP « Sensity Life ». Tu réponds UNIQUEMENT à partir du texte intégral du code fourni ci-dessous (version du ${SOURCE.updated}). Tes règles :
+const CODE_TEXT_CORE = `CODE PÉNAL DE L'ÉTAT DE SAN ANDREAS (Sensity Life RP) — version du ${SOURCE.updated}, rédigé par ${SOURCE.author}\n` + buildCodeText(b => b.id !== "L5");
+const CODE_TEXT_CIVIL = buildCodeText(b => b.id === "L5");
+let RULES = `Tu es l'assistant du Code pénal de l'État de San Andreas, pour le serveur GTA RP « Sensity Life ». Tu réponds UNIQUEMENT à partir du texte intégral du code fourni ci-dessous (version du ${SOURCE.updated}). Tes règles :
 1. Précision maximale : cite toujours le ou les articles exacts (« Art. 81.3 », « Art. 82.1 motif n°5 », « Livre II, Titre 3 ») et reprends les montants, durées, délais et conditions exactement comme ils sont écrits. Ne jamais arrondir ni extrapoler.
 2. Si le code ne tranche pas la question, dis-le clairement (« Le code ne précise pas… ») au lieu d'inventer. N'ajoute jamais de règles tirées d'autres serveurs ou du droit réel. Si la question porte sur autre chose que ce code (règles hors-RP du serveur, autre wiki), dis que ce n'est pas dans le code pénal.
 3. Pour un calcul d'amende, applique la méthode de l'Art. 78 dans l'ordre : base du barème (× quantité si « par unité » / « par arme ») → majoration de récidive (Art. 5.5) → coefficient de coopérativité (Art. 5.10) → coûts logistiques → dommages matériels. Montre chaque étape avec les chiffres. Rappelle que la GAV ne dépend pas de la quantité (Art. 7.5) et qu'un seul braquage est retenu par dossier (Art. 7.7).
@@ -2294,7 +2296,36 @@ const RULES = `Tu es l'assistant du Code pénal de l'État de San Andreas, pour 
 8. Honoraires : si on te demande un prix, un devis ou ce que coûte une prestation du cabinet, utilise le barème des honoraires fourni après le répertoire (prix déjà majorés du coefficient du cabinet) et rappelle qu'ils sont indicatifs et annoncés avant la prestation.
 
 === TEXTE INTÉGRAL DU CODE ===
-` + CODE_TEXT + buildRepertoireText() + buildTarifsText();
+`;
+const RULES_HEAD = RULES;
+const RULES_FULL = RULES_HEAD + CODE_TEXT + buildRepertoireText() + buildTarifsText();
+RULES = RULES_FULL;
+/* Mode économie : n'envoie que les parties du code utiles à la demande (≈ moitié moins de tokens) */
+const ECO_KEY = "cc_eco";
+function ecoOn(){ try { return localStorage.getItem(ECO_KEY) !== "0"; } catch (e) { return true; } }
+function setEco(on){ try { localStorage.setItem(ECO_KEY, on ? "1" : "0"); } catch (e) {} renderEco(); }
+function renderEco(){ const on = ecoOn(); $$("[data-eco]").forEach(b => { b.textContent = `Économie de quota : ${on ? "activée" : "désactivée"}`; b.setAttribute("aria-pressed", on); }); const t = $("#tier"); if (t && !t.dataset.touched) t.value = on ? "quick" : "default"; }
+function buildRepertoireCompact(names){
+  let t = `\n\n=== RÉPERTOIRE ARMES & ÉQUIPEMENT DE LA LSPD (extrait ; consulté le ${REP_SOURCE.date}) ===\nPPA : ${PPA_NOTES.join(" ")} ` + PPA_LEVELS.map(p => `PPA ${p.lvl} : ${p.lvl === 1 ? "" : "+"}${p.prix.toLocaleString("fr-FR")} $`).join(" ; ") + ` ; total 250 000 $.\nArgent liquide : légal jusqu'à ${CASH_LIMIT.toLocaleString("fr-FR")} $, saisi au-delà. Argent sale : illégal dès 1 $.\nObjets illégaux : ${OBJETS.filter(o => o.s === "illegal").map(o => o.n).join(", ")}.\n`;
+  if (names.length) t += "Armes citées : " + names.map(a => `${a.n} = ${statutLabel(a)} (${a.catLabel})`).join(" ; ") + ".\n";
+  t += `Règles d'usage : le répertoire fait foi pour le statut d'une arme et le niveau de PPA ; le code pénal pour la qualification et le barème. « Port d'arme à feu sans PPA » suppose une arme à feu dont la PPA requise dépasse celle du client ; « Port ou détention d'arme illégale » suppose une arme classée ILLÉGAL ; « Détention de matériel illégal » suppose un objet classé ILLÉGAL. Tout objet illégal doit être saisi et déclaré au rapport et au tableau (motifs 1, 3, 9). Un chef d'arme, d'objet, de stupéfiants ou d'argent n'est établi que si le rapport nomme l'arme ou l'objet, la quantité ou le montant. Si une arme n'est pas dans cet extrait, dis que son statut doit être vérifié dans l'onglet « Armes & objets » du site, sans le deviner.`;
+  return t;
+}
+function rulesFor(ctx){
+  if (!ecoOn()) return RULES_FULL;
+  const t = norm(ctx && ctx.text || ""), mode = (ctx && ctx.mode) || "chat";
+  const civil = /\b(contrat|dette|vente|achat|acheteur|vendeur|mariage|divorce|succession|heritage|testament|entreprise|societe|salari|salaire|licenci|prejudice|responsabilite civile|dommages et interets|propriete|locat|bail|civil|amiable|c-\d)/.test(t);
+  const armesTopic = /\b(arme|ppa|pistolet|fusil|gilet|munition|objet|illegal|crochet|piratage|materiel|perceuse|scanner|grenade|molotov|couteau|batte|machette)/.test(t);
+  const fullArmes = /\b(liste|quelles armes|toutes les armes|tous les objets|categorie|repertoire)\b/.test(t) || /\bppa [1-4]\b/.test(t);
+  const named = armesTopic ? ARMES.filter(a => t.includes(norm(a.n))) : [];
+  const tarifs = mode === "chat" && /\b(tarif|honoraire|devis|factur|prix|cout|combien ca coute)/.test(t);
+  const tactiques = mode !== "chat" || /\b(defen|vice|contest|casier|plaid|jugement|proces|negoci|avocat)/.test(t);
+  let out = RULES_HEAD + CODE_TEXT_CORE + (civil ? CODE_TEXT_CIVIL : "\n(Livre V, droit civil, omis : hors sujet ici.)\n");
+  out += fullArmes ? buildRepertoireText() : (armesTopic || mode !== "chat") ? buildRepertoireCompact(named) : "";
+  if (tarifs) out += buildTarifsText();
+  if (!tactiques) out = out.replace(/\n10\. TACTIQUES DE DÉFENSE[\s\S]*?(?=\n8\. Honoraires)/, "\n");
+  return out;
+}
 
 let sampleFn = null, turns = [], ctl = null;
 const log = $("#log"), statusEl = $("#status");
@@ -2342,7 +2373,7 @@ async function ask(){
   const el = addMsg("ai", "Réflexion en cours…"); const bubble = $(".bubble", el), meta = $(".meta", el);
   ctl = new AbortController(); setBusy(true);
   try {
-    const { text, truncated } = await sampleFn([{ role:"user", content:RULES }, ...turns], {
+    const { text, truncated } = await sampleFn([{ role:"user", content: rulesFor({ mode:"chat", text: turns.map(x => x.content).join(" ") }) }, ...turns], {
       cache:false, signal: ctl.signal, modelTier: $("#tier").value,
       onText: ({ text }) => { bubble.classList.remove("thinking"); bubble.innerHTML = md(text); }
     });
@@ -2360,6 +2391,9 @@ async function ask(){
   } finally { setBusy(false); ctl = null; el.scrollIntoView({ block:"end" }); }
 }
 $("#composer").addEventListener("submit", e => { e.preventDefault(); ask(); });
+$("#tier").addEventListener("change", e => { e.target.dataset.touched = "1"; });
+document.addEventListener("click", e => { const b = e.target.closest("[data-eco]"); if (b) setEco(!ecoOn()); });
+renderEco();
 $("#question").addEventListener("keydown", e => { if (e.key === "Enter" && !e.shiftKey){ e.preventDefault(); ask(); } });
 $("#stopBtn").addEventListener("click", () => { if (ctl) ctl.abort(); });
 $("#resetChat").addEventListener("click", () => { if (ctl) ctl.abort(); turns = []; log.innerHTML = ""; $("#question").focus(); });
@@ -2727,7 +2761,7 @@ async function generateDossier(){
     const opts = { cache:false, signal: genCtl.signal, modelTier: "default",
       onText: ({ text }) => { out.classList.remove("thinking"); renderWithClair(text, out, $("#dossierClair")); dossierRaw = text; } };
     if (shots.length && shots.length <= shotMax) opts.images = shots.slice();
-    const { text, truncated } = await sampleFn([{ role:"user", content: RULES }, { role:"user", content: dossierPrompt }], opts);
+    const { text, truncated } = await sampleFn([{ role:"user", content: rulesFor({ mode:"defense", text: dossierPrompt + " " + dItems.map(i => i.name).join(" ") }) }, { role:"user", content: dossierPrompt }], opts);
     out.classList.remove("thinking"); renderWithClair(text, out, $("#dossierClair")); dossierRaw = text;
     meta.textContent = `Dossier ${dFormat} · ${p.found.length} motif(s) pressenti(s) · ${p.s.chefs.length} chef(s) · vérifie chaque point avant de le soutenir : le wiki fait foi.` + (truncated ? " Réponse coupée : choisis un format plus court ou retire des éléments." : "");
   } catch (e) {
@@ -2993,7 +3027,7 @@ ${bilan.map(x => "- " + x).join("\n")}
 
 ${plaidoirie ? EXEMPLES_PLAIDOIRIE + "\n\n" : ""}PREUVES : ${hasVideo ? "le client a une vidéo de l'interpellation : indique le passage à relever [Timecode : __:__ à __:__] en complément du texte." : "LE CLIENT N'A AUCUNE VIDÉO NI TÉMOIN. La preuve, c'est le casier : le rapport est la base légale des poursuites (Art. 81.2) et ce qui n'y est pas écrit est réputé ne pas avoir eu lieu (Art. 6.1, 6.4). Ne demande jamais de vidéo, de témoin ni de preuve extérieure ; joue sur les détails du texte (omissions, formules vagues, contradictions, montants, horaires)."}
 CONSIGNES : un chef NON ÉTABLI est à supprimer, pas « à vérifier ». Vérifie aussi, pour chaque sanction : éléments obligatoires du rapport (Art. 81.2), chefs du casier absents du rapport (motif 11), qualification (motif 12), absorption (Art. 6.11, 7.6, 7.7), récidive et coopérativité (Art. 5.5, 5.10), GAV du barème ajustée contre GAV effectuée (Art. 81.1), erreurs mineures qui ne sont pas des vices (Art. 82.3). Une erreur de montant en faveur du client ne se soulève pas. N'invente aucun fait. Rédige en français, Markdown, **gras** sur les montants, durées et motifs.`;
-    const { text, truncated } = await sampleFn([{ role:"user", content: RULES }, { role:"user", content: jPrompt }], { cache:false, signal: jCtl.signal, modelTier: "default", ...(joinImgs ? { images: jShots.slice() } : {}),
+    const { text, truncated } = await sampleFn([{ role:"user", content: rulesFor({ mode:"jugement", text: jPrompt }) }, { role:"user", content: jPrompt }], { cache:false, signal: jCtl.signal, modelTier: "default", ...(joinImgs ? { images: jShots.slice() } : {}),
       onText: ({ text }) => { doc.classList.remove("thinking"); renderWithClair(text, doc, $("#jClair"), jDocHead(L, client, sanctions.length)); jDocRaw = text; } });
     doc.classList.remove("thinking"); renderWithClair(text, doc, $("#jClair"), jDocHead(L, client, sanctions.length)); jDocRaw = text;
     /* Facture : sur l'ensemble des sanctions */
