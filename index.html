@@ -408,7 +408,20 @@ footer .in{max-width:1080px;margin:0 auto;display:grid;gap:.3rem}
       <div class="gate-err" id="gateErr" role="alert"></div>
       <button type="submit" class="btn primary" id="gateBtn" style="justify-content:center">Entrer</button>
     </form>
-    <div class="gate-note">Recherche, barème, armes, tarifs, calculateur et pré-analyse fonctionnent ici. L'assistant IA, la rédaction de dossiers et l'onglet Jugement s'utilisent dans la <a href="https://claude.ai/artifact/96voKv1pmCtkRu5AwBkmNA" target="_blank" rel="noopener">version Claude du site</a>, sur le compte Claude de chaque membre.</div>
+    <form id="gateKeyForm" autocomplete="off" hidden>
+      <div class="field">
+        <label for="gateKey">Ta clé API Claude</label>
+        <div class="pw"><input id="gateKey" type="password" autocomplete="off" spellcheck="false" placeholder="sk-ant-…" aria-describedby="gateKeyErr"><button type="button" class="eye" id="gateKeyEye" aria-label="Afficher la clé">Voir</button></div>
+        <span class="small muted">L'assistant IA, la rédaction de dossiers et le Jugement tournent avec ta clé, donc sur ton compte API, pas sur celui du cabinet. Elle reste dans ton navigateur et n'est envoyée qu'à l'API d'Anthropic. Clé à créer sur <span class="mono">console.anthropic.com</span> → API keys.</span>
+      </div>
+      <label class="check"><input type="checkbox" id="gateKeyRemember" checked><span class="lb">Se souvenir de ma clé sur cet appareil<small>30 jours, sur ce navigateur uniquement</small></span></label>
+      <div class="gate-err" id="gateKeyErr" role="alert"></div>
+      <div class="row">
+        <button type="submit" class="btn primary" id="gateKeyBtn">Continuer</button>
+        <button type="button" class="btn" id="gateKeySkip">Continuer sans IA</button>
+      </div>
+    </form>
+    <div class="gate-note">Après le mot de passe, le site demande ta clé API Claude : l'assistant, les dossiers et le Jugement tournent alors sur ton compte API, jamais sur celui du cabinet. Sans clé, tu gardes la recherche, le barème, les armes, les tarifs, le calculateur et la pré-analyse, et tu peux utiliser la <a href="https://claude.ai/artifact/96voKv1pmCtkRu5AwBkmNA" target="_blank" rel="noopener">version Claude du site</a> avec ton compte Claude.</div>
   </div>
 </div>
 
@@ -427,7 +440,7 @@ footer .in{max-width:1080px;margin:0 auto;display:grid;gap:.3rem}
 </header>
 
 <nav class="tabs" aria-label="Sections" hidden>
-  <div class="ia-band"><span>L'assistant IA, la rédaction de dossiers et l'onglet Jugement ne fonctionnent que dans la version Claude du site (compte Claude requis).</span><a class="btn sm primary" href="https://claude.ai/artifact/96voKv1pmCtkRu5AwBkmNA" target="_blank" rel="noopener">Ouvrir dans Claude →</a></div>
+  <div class="ia-band"><span>L'IA (assistant, dossiers, Jugement) tourne ici avec ta clé API Claude, saisie à la connexion et facturée sur ton compte API. Sans clé, utilise la version Claude du site avec ton compte Claude.</span><a class="btn sm primary" href="https://claude.ai/artifact/96voKv1pmCtkRu5AwBkmNA" target="_blank" rel="noopener">Ouvrir dans Claude →</a></div>
   <div class="tabs-in" role="tablist">
     <button class="tab" role="tab" data-tab="recherche" aria-selected="true">Recherche</button>
     <button class="tab ai" role="tab" data-tab="assistant" aria-selected="false"><span class="dot" aria-hidden="true"></span>Assistant IA</button>
@@ -480,7 +493,7 @@ footer .in{max-width:1080px;margin:0 auto;display:grid;gap:.3rem}
       </div>
       <div id="aiUnavailable" class="notice" hidden>
         <b>Assistant indisponible ici.</b>
-        <span>Sur ce site, l'assistant n'est pas actif. <a href="https://claude.ai/artifact/96voKv1pmCtkRu5AwBkmNA" target="_blank" rel="noopener">Ouvre la version Claude du site</a> (compte Claude requis) pour l'utiliser. La recherche, le barème, le calculateur, les tarifs et la pré-analyse fonctionnent ici.</span>
+        <span>Saisis ta clé API Claude (bouton « Changer ma clé API » en bas de page) pour activer l'assistant ici, ou <a href="https://claude.ai/artifact/96voKv1pmCtkRu5AwBkmNA" target="_blank" rel="noopener">ouvre la version Claude du site</a> avec ton compte Claude. La recherche, le barème, le calculateur, les tarifs et la pré-analyse fonctionnent sans clé.</span>
       </div>
       <div class="log" id="log"></div>
       <div class="sugg" id="sugg"></div>
@@ -629,7 +642,7 @@ footer .in{max-width:1080px;margin:0 auto;display:grid;gap:.3rem}
               <button type="button" class="btn" id="genStop" hidden>Arrêter</button>
             </div>
             <span class="status" id="genStatus"></span>
-            <div id="genUnavailable" class="notice" hidden><b>Rédaction indisponible sur ce site.</b><span><a href="https://claude.ai/artifact/96voKv1pmCtkRu5AwBkmNA" target="_blank" rel="noopener">Ouvre la version Claude du site</a> pour rédiger le dossier. La pré-analyse ci-dessus fonctionne ici.</span></div>
+            <div id="genUnavailable" class="notice" hidden><b>Rédaction désactivée : aucune clé API.</b><span>Saisis ta clé API (« Changer ma clé API » en bas de page) ou <a href="https://claude.ai/artifact/96voKv1pmCtkRu5AwBkmNA" target="_blank" rel="noopener">ouvre la version Claude du site</a>. La pré-analyse ci-dessus fonctionne sans clé.</span></div>
           </div>
         </div>
       </div>
@@ -686,7 +699,7 @@ footer .in{max-width:1080px;margin:0 auto;display:grid;gap:.3rem}
             <button type="button" class="btn" id="jStop" hidden>Arrêter</button>
             <span class="status" id="jStatus"></span>
           </div>
-          <div id="jUnavailable" class="notice" hidden><b>Indisponible sur ce site.</b><span><a href="https://claude.ai/artifact/96voKv1pmCtkRu5AwBkmNA" target="_blank" rel="noopener">Ouvre la version Claude du site</a>, connecté à ton compte, pour envoyer les captures à l'assistant.</span></div>
+          <div id="jUnavailable" class="notice" hidden><b>Jugement désactivé : aucune clé API.</b><span>Saisis ta clé API (« Changer ma clé API » en bas de page) ou <a href="https://claude.ai/artifact/96voKv1pmCtkRu5AwBkmNA" target="_blank" rel="noopener">ouvre la version Claude du site</a> pour envoyer les captures à l'assistant.</span></div>
         </div>
         <div class="wrap" style="gap:.9rem;align-content:start">
           <div class="total">
@@ -930,7 +943,7 @@ footer .in{max-width:1080px;margin:0 auto;display:grid;gap:.3rem}
   <div class="in">
     <span>Source : <a href="https://sensityliferp.io/wiki/code-penal-de-letat-de-san-andreas" target="_blank" rel="noopener">wiki Sensity — Code pénal de l'État de San Andreas</a>, rédigé par baphomet__, mis à jour le 17 octobre 2026.</span>
     <span>Outil d'aide à la lecture, non officiel. En cas de divergence, le wiki fait foi. Pense à vérifier la date de mise à jour du wiki : ce texte a été transcrit le 25 octobre 2026.</span>
-    <span>Cabinet Carter · <button type="button" class="logout" id="logout">Se déconnecter de cet appareil</button></span>
+    <span>Cabinet Carter · <button type="button" class="logout" id="logout">Se déconnecter de cet appareil</button> <span id="apiKeyFoot" hidden>· <button type="button" class="logout" id="apiKeyBtn">Changer ma clé API</button></span></span>
   </div>
 </footer>
 
@@ -1648,22 +1661,129 @@ CONCLUSION ET DEMANDE D'AMÉNAGEMENT DE PEINE
 Monsieur Max Grey ne cherche pas à fuir ses responsabilités pour les erreurs qu'il a réellement commises, mais il exige une justice équitable, basée sur des rapports rigoureux. Pour prouver sa bonne foi, mon client se propose officiellement de collaborer avec les services de police comme informateur pour infiltrer les organisations criminelles, engagement bien plus constructif pour la société qu'une peine de prison ferme. En résumé, la défense vous demande : 1. la suppression de la mention du 25 octobre pour vice de procédure ; 2. la correction de la qualification pour les faits du 1er septembre ; 3. l'abandon ou la réduction des charges du 7 octobre au bénéfice du doute ; 4. la suspension des peines d'emprisonnement et de TIG, en échange de l'accord officiel d'un statut d'informateur. Je vous remercie pour votre écoute et m'en remets à votre haute sagesse.`;
 </script>
 <script>
+/* ================= IA PAR CLÉ API (quand la page n'est pas ouverte dans Claude) ================= */
+const HAS_VIEWER = !!(window.claude && typeof window.claude.use === "function");
+const API_MODELS = { quick: ["claude-haiku-5-5", "claude-haiku-4-5"], default: ["claude-sonnet-5-5", "claude-sonnet-4-5"], complex: ["claude-opus-5-5", "claude-sonnet-5-5", "claude-sonnet-4-5"] };
+function parseJsonLoose(t){
+  const tries = [t, (t.match(/```(?:json)?\s*([\s\S]*?)```/) || [])[1], (() => { const a = Math.min(...[t.indexOf("{"), t.indexOf("[")].filter(i => i >= 0)); const b = Math.max(t.lastIndexOf("}"), t.lastIndexOf("]")); return a >= 0 && b > a ? t.slice(a, b + 1) : null; })()];
+  for (const c of tries){ if (!c) continue; try { return JSON.parse(c.trim()); } catch (e) {} }
+  return undefined;
+}
+function imageBlock(file){
+  return new Promise((resolve, reject) => {
+    const img = new Image(); const url = URL.createObjectURL(file);
+    img.onload = () => { URL.revokeObjectURL(url); try { const max = 1568; const w = img.naturalWidth, h = img.naturalHeight; const k = Math.min(1, max / Math.max(w, h)); const c = document.createElement("canvas"); c.width = Math.max(1, Math.round(w * k)); c.height = Math.max(1, Math.round(h * k)); c.getContext("2d").drawImage(img, 0, 0, c.width, c.height); resolve({ type:"image", source:{ type:"base64", media_type:"image/jpeg", data: c.toDataURL("image/jpeg", 0.88).split(",")[1] } }); } catch (e) { reject({ code:"image_rejected", message: String(e) }); } };
+    img.onerror = () => { URL.revokeObjectURL(url); reject({ code:"image_rejected", message:"image illisible" }); };
+    img.src = url;
+  });
+}
+function makeApiSample(key){
+  const API = "https://api.anthropic.com/v1/messages";
+  async function toMessages(input, images){
+    const turns = typeof input === "string" ? [{ role:"user", content: input }] : input;
+    const msgs = [];
+    turns.forEach(t => { const last = msgs[msgs.length - 1]; const block = { type:"text", text: String(t.content) }; if (block.text.length > 20000) block.cache_control = { type:"ephemeral" }; if (last && last.role === t.role) last.content.push(block); else msgs.push({ role: t.role, content: [block] }); });
+    if (images && images.length){ const last = msgs[msgs.length - 1]; const blocks = []; for (const f of Array.from(images)) blocks.push(await imageBlock(f)); last.content = [...blocks, ...last.content]; }
+    return msgs;
+  }
+  async function request(model, messages, system, opts){
+    const body = { model, max_tokens: 8192, messages, stream: true }; if (system) body.system = system;
+    let res;
+    try { res = await fetch(API, { method:"POST", signal: opts.signal, headers: { "content-type":"application/json", "x-api-key": key, "anthropic-version":"2023-06-01", "anthropic-dangerous-direct-browser-access":"true" }, body: JSON.stringify(body) }); }
+    catch (e){ if (e && e.name === "AbortError") throw { code:"cancelled", message:"cancelled" }; throw { code:"upstream_error", message:"Connexion à l'API impossible : " + (e && e.message) }; }
+    if (!res.ok){
+      let j = null; try { j = await res.json(); } catch (e) {}
+      const msg = (j && j.error && j.error.message) || res.statusText || ("HTTP " + res.status);
+      if (res.status === 401 || res.status === 403) throw { code:"api_key_invalid", message: msg };
+      if (res.status === 404 && /model/i.test(msg)) throw { code:"model_not_found", message: msg };
+      if (res.status === 429) throw { code:"rate_limited", message: msg };
+      if (res.status === 413 || /too long|too large/i.test(msg)) throw { code:"prompt_too_large", message: msg };
+      if (res.status === 400) throw { code:"invalid_request", message: msg };
+      if (res.status === 402) throw { code:"api_credit", message: msg };
+      throw { code:"upstream_error", message: msg };
+    }
+    let text = "", stop = null;
+    const reader = res.body.getReader(); const dec = new TextDecoder(); let buf = "";
+    try {
+      for (;;){ const { value, done } = await reader.read(); if (done) break; buf += dec.decode(value, { stream:true });
+        let i; while ((i = buf.indexOf("\n")) >= 0){ const line = buf.slice(0, i).trim(); buf = buf.slice(i + 1);
+          if (!line.startsWith("data:")) continue; const data = line.slice(5).trim(); if (!data) continue;
+          let ev; try { ev = JSON.parse(data); } catch (e) { continue; }
+          if (ev.type === "content_block_delta" && ev.delta && ev.delta.type === "text_delta"){ const delta = ev.delta.text || ""; if (delta){ text += delta; if (opts.onText) try { opts.onText({ text, delta }); } catch (e) {} } }
+          else if (ev.type === "message_delta" && ev.delta && ev.delta.stop_reason) stop = ev.delta.stop_reason;
+          else if (ev.type === "error") throw { code:"upstream_error", message: (ev.error && ev.error.message) || "erreur de flux", text };
+        } }
+    } catch (e){ if (e && e.name === "AbortError") throw { code:"cancelled", message:"cancelled", text }; if (e && e.code) throw e; throw { code:"upstream_error", message: String(e && e.message || e), text }; }
+    if (!text.trim()) throw { code:"empty_completion", message:"réponse vide" };
+    return { text, truncated: stop === "max_tokens", modelTierApplied: opts.modelTier || "default" };
+  }
+  async function call(input, opts, wantJson){
+    opts = opts || {};
+    const models = API_MODELS[opts.modelTier] || API_MODELS.default;
+    const messages = await toMessages(input, opts.images);
+    const system = wantJson ? "Réponds uniquement avec la valeur JSON demandée, sans texte autour ni bloc de code." : "Tu es un assistant juridique. Réponds en français.";
+    let lastErr = null;
+    for (const model of models){ try { return await request(model, messages, system, opts); } catch (e){ if (e && e.code === "model_not_found"){ lastErr = e; continue; } throw e; } }
+    throw lastErr || { code:"upstream_error", message:"aucun modèle disponible" };
+  }
+  const fn = (input, opts) => call(input, opts, false);
+  fn.json = async (input, opts) => { const r = await call(input, opts, true); const v = parseJsonLoose(r.text); if (v === undefined) throw { code:"invalid_json", message:"pas de JSON", text: r.text }; return v; };
+  fn.limits = async () => ({ maxPromptBytes: 262144, images: { maxCount: 8, maxInputBytes: 20 * 1024 * 1024, mediaTypes: ["image/jpeg", "image/png", "image/webp", "image/gif"] } });
+  fn.test = async () => { await request(API_MODELS.quick[0], [{ role:"user", content:[{ type:"text", text:"ok" }] }], "Réponds « ok ».", { signal: undefined }).catch(e => { if (e.code === "model_not_found") return; throw e; }); return true; };
+  return fn;
+}
+window.CC_UNLOCKED = false; window.CC_API_KEY = null;
+
 /* ================= PORTAIL D'ACCÈS (Cabinet Carter) ================= */
 (function gate(){
   const SALT = "cabinet-carter-sa", HASH = "c8c5a81eba836a45a7cb1af396e7aec627d8749fe7004bb87ab556afd48c0c4b", KEY = "cc_access", DAYS = 30;
   const form = document.getElementById("gateForm"), pw = document.getElementById("gatePw"), err = document.getElementById("gateErr");
   async function sha256(str){ const buf = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(str)); return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, "0")).join(""); }
+  const KEYK = "cc_api_key";
   function unlock(){
     document.getElementById("gate").hidden = true;
     ["header.top", "nav.tabs", "main", "footer"].forEach(sel => { const el = document.querySelector(sel); if (el) el.hidden = false; });
+    if (!HAS_VIEWER){ const f = document.getElementById("apiKeyFoot"); if (f) f.hidden = false; }
+    window.CC_UNLOCKED = true;
     document.dispatchEvent(new Event("cc:unlocked"));
   }
+  function rememberedKey(){
+    try { const r = JSON.parse(localStorage.getItem(KEYK) || "null"); if (r && r.k && r.exp > Date.now()) return r.k; if (r) localStorage.removeItem(KEYK); } catch (e) {}
+    try { const k = sessionStorage.getItem(KEYK); if (k) return k; } catch (e) {}
+    return null;
+  }
+  /* après le mot de passe : dans Claude on entre directement ; ailleurs on demande la clé API (ou on continue sans IA) */
+  function afterPassword(){
+    if (HAS_VIEWER) return unlock();
+    const k = rememberedKey(); if (k){ window.CC_API_KEY = k; return unlock(); }
+    form.hidden = true; const kf = document.getElementById("gateKeyForm"); kf.hidden = false; setTimeout(() => document.getElementById("gateKey").focus(), 50);
+  }
+  const keyForm = document.getElementById("gateKeyForm"), keyIn = document.getElementById("gateKey"), keyErr = document.getElementById("gateKeyErr");
+  document.getElementById("gateKeyEye").addEventListener("click", function(){ const show = keyIn.type === "password"; keyIn.type = show ? "text" : "password"; this.textContent = show ? "Cacher" : "Voir"; keyIn.focus(); });
+  document.getElementById("gateKeySkip").addEventListener("click", () => { window.CC_API_KEY = null; unlock(); });
+  keyForm.addEventListener("submit", async e => {
+    e.preventDefault(); keyErr.textContent = "";
+    const k = keyIn.value.trim(); const btn = document.getElementById("gateKeyBtn");
+    if (!/^sk-ant-/.test(k)){ keyErr.textContent = "Une clé API Claude commence par « sk-ant- »."; keyIn.select(); return; }
+    btn.disabled = true; btn.textContent = "Vérification…";
+    try {
+      await makeApiSample(k).test();
+      if (document.getElementById("gateKeyRemember").checked){ try { localStorage.setItem(KEYK, JSON.stringify({ k, exp: Date.now() + DAYS * 86400000 })); } catch (x) {} }
+      else { try { sessionStorage.setItem(KEYK, k); } catch (x) {} }
+      window.CC_API_KEY = k; keyIn.value = ""; unlock();
+    } catch (err) {
+      const c = err && err.code;
+      keyErr.textContent = c === "api_key_invalid" ? "Clé refusée par l'API : vérifie-la (console.anthropic.com → API keys)." : c === "api_credit" ? "Clé valide mais sans crédit : ajoute du crédit sur console.anthropic.com." : c === "rate_limited" ? "Trop de requêtes pour cette clé : réessaie dans un instant." : "Impossible de joindre l'API (" + ((err && err.message) || "réseau") + "). Vérifie ta connexion ou continue sans IA.";
+    } finally { btn.disabled = false; btn.textContent = "Continuer"; }
+  });
+  const kb = document.getElementById("apiKeyBtn");
+  if (kb) kb.addEventListener("click", () => { try { localStorage.removeItem(KEYK); } catch (e) {} try { sessionStorage.removeItem(KEYK); } catch (e) {} location.reload(); });
   function remembered(){
     try { const r = JSON.parse(localStorage.getItem(KEY) || "null"); if (r && r.h === HASH && r.exp > Date.now()) return true; if (r) localStorage.removeItem(KEY); } catch (e) {}
     try { if (sessionStorage.getItem(KEY) === HASH) return true; } catch (e) {}
     return false;
   }
-  if (remembered()) unlock(); else setTimeout(() => pw.focus(), 50);
+  if (remembered()) afterPassword(); else setTimeout(() => pw.focus(), 50);
   document.getElementById("gateEye").addEventListener("click", function(){ const show = pw.type === "password"; pw.type = show ? "text" : "password"; this.textContent = show ? "Cacher" : "Voir"; pw.focus(); });
   form.addEventListener("submit", async e => {
     e.preventDefault(); err.textContent = "";
@@ -1674,11 +1794,11 @@ Monsieur Max Grey ne cherche pas à fuir ses responsabilités pour les erreurs q
       if (h !== HASH){ err.textContent = "Mot de passe incorrect."; pw.select(); return; }
       try { sessionStorage.setItem(KEY, HASH); } catch (x) {}
       if (document.getElementById("gateRemember").checked){ try { localStorage.setItem(KEY, JSON.stringify({ h: HASH, exp: Date.now() + DAYS * 86400000 })); } catch (x) {} }
-      pw.value = ""; unlock();
+      pw.value = ""; afterPassword();
     } finally { btn.disabled = false; }
   });
   const out = document.getElementById("logout");
-  if (out) out.addEventListener("click", () => { try { localStorage.removeItem(KEY); } catch (e) {} try { sessionStorage.removeItem(KEY); } catch (e) {} location.reload(); });
+  if (out) out.addEventListener("click", () => { [KEY, KEYK].forEach(k => { try { localStorage.removeItem(k); } catch (e) {} try { sessionStorage.removeItem(k); } catch (e) {} }); location.reload(); });
 })();
 
 /* ================= UTILITAIRES ================= */
@@ -2205,6 +2325,10 @@ const ERR = {
   empty_completion: "Réponse vide : reformule ou précise la question.",
   prompt_too_large: "Conversation trop longue : clique sur « Nouvelle conversation » et repose ta question.",
   upstream_error: "Erreur temporaire du service. Réessaie.",
+  api_key_invalid: "Clé API refusée : change-la en bas de page (« Changer ma clé API »).",
+  api_credit: "Clé API sans crédit : ajoute du crédit sur console.anthropic.com.",
+  invalid_request: "Requête refusée par l'API (trop d'images ou contenu invalide) : réessaie avec moins de captures.",
+  model_not_found: "Modèle indisponible pour cette clé : réessaie plus tard.",
   image_rejected: "Image refusée (format ou taille) : réessaie avec un PNG ou JPEG plus léger.",
   images_unavailable: "Cette vue ne peut pas envoyer d'images à Claude.",
   invalid_json: "Lecture de la capture impossible : réessaie, ou remplis la fiche à la main."
@@ -2240,9 +2364,10 @@ $("#question").addEventListener("keydown", e => { if (e.key === "Enter" && !e.sh
 $("#stopBtn").addEventListener("click", () => { if (ctl) ctl.abort(); });
 $("#resetChat").addEventListener("click", () => { if (ctl) ctl.abort(); turns = []; log.innerHTML = ""; $("#question").focus(); });
 
-(async () => {
-  try { sampleFn = window.claude && typeof window.claude.use === "function" ? await window.claude.use("sample") : null; } catch (e) { sampleFn = null; }
-  if (!sampleFn){ $("#aiUnavailable").hidden = false; $("#askBtn").disabled = true; $("#question").disabled = true; $("#sugg").hidden = true; }
+const SAMPLE_READY = (async () => {
+  if (HAS_VIEWER){ try { sampleFn = await window.claude.use("sample"); } catch (e) { sampleFn = null; } }
+  else { if (!window.CC_UNLOCKED) await new Promise(r => document.addEventListener("cc:unlocked", r, { once:true })); sampleFn = window.CC_API_KEY ? makeApiSample(window.CC_API_KEY) : null; }
+  if (!sampleFn){ $("#aiUnavailable").hidden = false; $("#askBtn").disabled = true; $("#question").disabled = true; $("#sugg").hidden = true; if (!HAS_VIEWER) $("#aiUnavailable").innerHTML = `<b>Assistant désactivé : aucune clé API.</b><span>Clique sur « Changer ma clé API » en bas de page pour en saisir une (ton compte API Claude), ou ouvre la version Claude du site.</span>`; }
 })();
 
 /* Sépare le compte rendu détaillé du bloc « En clair pour le client » et les rend dans deux conteneurs */
@@ -2628,7 +2753,7 @@ $("#chatDossier").addEventListener("click", () => {
   const a = addMsg("ai", ""); const b = $(".bubble", a); b.classList.remove("thinking"); b.innerHTML = md(dossierRaw);
   showTab("assistant"); $("#question").placeholder = "Ex. : Quel vice est le plus solide ? Comment répondre si la LSPD dit que les droits ont été lus ?"; $("#question").focus();
 });
-(async () => { let t = 0; while (sampleFn === null && t++ < 60) await new Promise(r => setTimeout(r, 250)); if (!sampleFn){ $("#genUnavailable").hidden = false; $("#genBtn").disabled = true; return; }
+(async () => { await SAMPLE_READY; if (!sampleFn){ $("#genUnavailable").hidden = false; $("#genBtn").disabled = true; return; }
   // captures du casier : seulement si cette vue peut envoyer des images
   let caps = null; try { caps = await sampleFn.limits(); } catch (e) { caps = null; }
   if (caps && caps.images){ shotMax = caps.images.maxCount || 1; $("#shotInput").accept = (caps.images.mediaTypes || ["image/*"]).join(","); $("#dropZone").hidden = false; }
@@ -2742,7 +2867,7 @@ document.addEventListener("paste", e => {
   const items = Array.from((e.clipboardData && e.clipboardData.items) || []).filter(i => i.kind === "file" && /^image\//.test(i.type)).map(i => i.getAsFile());
   if (items.length){ e.preventDefault(); jAdd(items); }
 });
-(async () => { let t = 0; while (sampleFn === null && t++ < 60) await new Promise(r => setTimeout(r, 250));
+(async () => { await SAMPLE_READY;
   if (!sampleFn){ $("#jUnavailable").hidden = false; return; }
   let caps = null; try { caps = await sampleFn.limits(); } catch (e) { caps = null; }
   if (caps && caps.images){ jMax = caps.images.maxCount || 1; $("#jInput").accept = (caps.images.mediaTypes || ["image/*"]).join(","); jRender(); }
