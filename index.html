@@ -416,7 +416,7 @@ footer .in{max-width:1080px;margin:0 auto;display:grid;gap:.3rem}
   <div class="top-in">
     <div class="brand">
       <img class="seal-img" src="logo-small.jpg" alt="" width="44" height="44">
-      <div><b>Cabinet Carter</b><small>Code pénal de l'État de San Andreas · Sensity Life RP · version du 17 octobre 2026</small></div>
+      <div><b>Cabinet Carter</b><small>Code pénal de l'État de San Andreas · Sensity Life RP · wiki du 25 octobre 2026</small></div>
     </div>
     <form class="search" id="searchForm" role="search">
       <span class="lens" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></span>
@@ -928,8 +928,8 @@ footer .in{max-width:1080px;margin:0 auto;display:grid;gap:.3rem}
 
 <footer hidden>
   <div class="in">
-    <span>Source : <a href="https://sensityliferp.io/wiki/code-penal-de-letat-de-san-andreas" target="_blank" rel="noopener">wiki Sensity — Code pénal de l'État de San Andreas</a>, rédigé par baphomet__, mis à jour le 17 octobre 2026.</span>
-    <span>Outil d'aide à la lecture, non officiel. En cas de divergence, le wiki fait foi. Pense à vérifier la date de mise à jour du wiki : ce texte a été transcrit le 25 octobre 2026.</span>
+    <span>Source : <a href="https://sensityliferp.io/wiki/code-penal-de-letat-de-san-andreas" target="_blank" rel="noopener">wiki Sensity — Code pénal de l'État de San Andreas</a>, <a href="https://sensityliferp.io/wiki/doj-magistrature" target="_blank" rel="noopener">DOJ &amp; magistrature</a>, <a href="https://sensityliferp.io/wiki/jugement-execution-des-peines" target="_blank" rel="noopener">Jugement &amp; exécution des peines</a>, <a href="https://sensityliferp.io/wiki/wipe-rp-rehabilitation" target="_blank" rel="noopener">Wipe RP &amp; réhabilitation</a>, rédigés par baphomet__, mis à jour le 25 octobre 2026.</span>
+    <span>Outil d'aide à la lecture, non officiel. En cas de divergence, le wiki fait foi. Pense à vérifier la date de mise à jour du wiki : le code pénal et les pages Justice (DOJ & magistrature, Jugement & exécution des peines, Wipe RP & réhabilitation) ont été transcrits le 28 octobre 2026, d'après leur version du 25 octobre 2026.</span>
     <span>Cabinet Carter · <button type="button" class="logout" id="logout">Se déconnecter de cet appareil</button> · <button type="button" class="logout" data-eco>Économie de quota : activée</button></span>
   </div>
 </footer>
@@ -1648,6 +1648,148 @@ CONCLUSION ET DEMANDE D'AMÉNAGEMENT DE PEINE
 Monsieur Max Grey ne cherche pas à fuir ses responsabilités pour les erreurs qu'il a réellement commises, mais il exige une justice équitable, basée sur des rapports rigoureux. Pour prouver sa bonne foi, mon client se propose officiellement de collaborer avec les services de police comme informateur pour infiltrer les organisations criminelles, engagement bien plus constructif pour la société qu'une peine de prison ferme. En résumé, la défense vous demande : 1. la suppression de la mention du 25 octobre pour vice de procédure ; 2. la correction de la qualification pour les faits du 1er septembre ; 3. l'abandon ou la réduction des charges du 7 octobre au bénéfice du doute ; 4. la suspension des peines d'emprisonnement et de TIG, en échange de l'accord officiel d'un statut d'informateur. Je vous remercie pour votre écoute et m'en remets à votre haute sagesse.`;
 </script>
 <script>
+/* ====== WIKI SENSITY « Gouvernement & Justice » (mis à jour le 25 octobre 2026) : DOJ & magistrature, Jugement & exécution des peines, Wipe RP & réhabilitation ====== */
+SOURCE.updated = "25 octobre 2026";
+const JUSTICE_SOURCES = {
+  doj: "https://sensityliferp.io/wiki/doj-magistrature",
+  jug: "https://sensityliferp.io/wiki/jugement-execution-des-peines",
+  wipe: "https://sensityliferp.io/wiki/wipe-rp-rehabilitation"
+};
+const ARCHIVAGE = [
+  { type:"Casier sans ligne noire (jusqu'au délit majeur)", statut:"Autorisé", cout:200000 },
+  { type:"Casier avec ligne noire", statut:"Autorisé", cout:300000 },
+  { type:"Casier comportant des meurtres ou des infractions contre l'État", statut:"Non archivable", cout:null }
+];
+BOOKS.push(
+{ id:"L6", num:"VI", title:"DOJ & magistrature", src: JUSTICE_SOURCES.doj, note:`Page du wiki « DOJ & magistrature » (mise à jour le 25 octobre 2026). Elle définit le rôle du procureur et du juge, leurs incompatibilités, l'indépendance et le secret de la justice, l'articulation avec la police et les voies de contestation. Elle ne crée aucune infraction ni aucune peine : le fond relève du Code pénal.
+Légende : 🟢 autorisé · 🔴 interdit · 🟠 conditionnel · 🔵 exemple / clarification.`, titres:[
+  { id:"L6T1", title:"Composition et rôles", articles:[
+    { id:"DOJ-1", t:"Objet et composition du DOJ", kw:"department of justice institution", text:`Le DOJ est l'institution judiciaire du serveur, indépendante dans l'exercice de la fonction de juger. Il réunit deux fonctions distinctes, complémentaires et jamais cumulables dans une même affaire :
+- **Ministère public (procureur)** : porte l'accusation au nom de l'État et veille au respect de la procédure.
+- **Siège (juge)** : tranche l'affaire et prononce la sentence.
+Côté défense, l'**avocat** assiste et représente la personne mise en cause.
+| Fonction | Pouvoirs clés | Ne peut pas |
+| Procureur | Opportunité des poursuites ; requérir une peine ; valider et assister aux perquisitions ; émettre des mandats (selon l'état d'alerte) ; négocier une réduction de peine | Prononcer lui-même le jugement ni se substituer au juge |
+| Juge | Apprécier les preuves ; prononcer la peine dans le barème du Code pénal ; ordonner un TIG ; retenir des circonstances aggravantes ou atténuantes ; accorder un sursis | Enquêter à la place de la police ni poursuivre à la place du procureur |
+| Avocat | Accès au dossier ; présentation de preuves ; contre-interrogatoire des témoins ; négociation d'une réduction de peine | Faire pression sur les magistrats hors du cadre procédural |` },
+    { id:"DOJ-2", t:"Le procureur (ministère public)", kw:"procureur requisitions opportunite perquisition validation presence mandat defcon", text:`Le procureur représente l'accusation au nom de l'État. Il n'est ni un policier ni un juge : il fait le lien entre l'enquête de la police et la décision du juge.
+- **Opportunité des poursuites** : il décide s'il y a lieu de poursuivre, sur la base des éléments transmis par les forces de l'ordre, au regard du standard de preuve.
+- **Réquisitions** : il expose les faits et requiert une peine ; il ne la prononce jamais.
+- **Validation des perquisitions** : 🟠 toute perquisition doit être validée par un procureur, **dont la présence est requise pendant l'opération**.
+- **Mandats** : selon l'état d'alerte (DEFCON) en vigueur, il peut émettre des mandats d'arrêt et de perquisition contre un individu ou un groupe visé par des soupçons sérieux et concordants.
+- **Négociation de peine** : il peut négocier une réduction de peine en échange d'une coopération utile ou d'une reconnaissance partielle des faits (Art. 6.4 al. 2).
+> 🔵 Exemple : la police veut perquisitionner l'entrepôt d'un suspect trouvé avec une grande quantité d'armes. Elle ne peut agir seule : un procureur doit valider l'opération et y assister.` },
+    { id:"DOJ-3", t:"Le juge (magistrat du siège)", kw:"juge sentence bareme maximum sursis tig individualisation motivation free-jail", text:`Le juge tranche l'affaire et prononce la sentence, en toute indépendance, à partir des éléments contradictoirement débattus.
+- **Appréciation des preuves** : il examine les preuves des deux parties, entend les témoins ; le doute raisonnable profite à la personne mise en cause.
+- **Prononcé de la peine** : dans les limites du barème du Code pénal. Il ne peut **ni créer une peine, ni dépasser le maximum prévu** pour l'infraction retenue.
+- **Individualisation** : il retient les circonstances aggravantes ou atténuantes et peut accorder un sursis ou **substituer des TIG à une peine ferme**.
+- **Motivation** : toute décision repose sur des faits et des preuves. 🔴 Il est interdit de prononcer une peine sans fondement RP démontré : une sentence arbitraire équivaut à un free-jail.
+> 🔵 Exemple : un accusé démontre en audience qu'il a coopéré et qu'il s'agit d'un premier fait. Le juge peut, dans le barème, réduire la peine ou prononcer un TIG plutôt qu'une incarcération ferme.` }
+  ]},
+  { id:"L6T2", title:"Nomination, incompatibilités et indépendance", articles:[
+    { id:"DOJ-4", t:"Nomination, séparation des rôles et incompatibilités", kw:"deport conflit d'interets cumul incompatibilite", text:`Les magistrats sont nommés par la DOJ, via un dossier ou une candidature (ticket Discord). Dans une même affaire, une personne ne peut jamais être à la fois enquêteur, procureur et juge.
+| Situation | Statut |
+| Magistrat + membre d'un groupe illégal, gang ou organisation criminelle | 🔴 Interdit |
+| Magistrat + agent des forces de l'ordre en service actif | 🔴 Interdit |
+| Juger, poursuivre ou instruire une affaire impliquant un proche RP, son groupe ou soi-même | 🔴 Interdit : déport obligatoire |
+| Occuper successivement, sur des affaires distinctes, une fonction dans les institutions légales | 🟠 Conditionnel : sans conflit d'intérêts |` },
+    { id:"DOJ-5", t:"Indépendance de la magistrature", kw:"pression menace chantage impartialite", text:`Le juge n'est pas subordonné aux forces de l'ordre : la police enquête et interpelle, elle ne juge pas et ne fixe pas la peine. Le magistrat traite chaque partie sur un pied d'égalité et fonde sa décision sur les seuls éléments du dossier. 🔴 Il est interdit de menacer, corrompre ou faire chanter un magistrat. L'indépendance n'est pas l'arbitraire : le juge reste tenu par le barème et la procédure.` },
+    { id:"DOJ-6", t:"Confidentialité, secret et interdiction du metagaming", kw:"metagaming hrp logs stream secret delibere temoins informateurs", text:`- **Secret de l'enquête et de l'instruction** ; **secret du délibéré** : seule la décision est communiquée aux parties.
+- **Protection des témoins et informateurs** : 🔴 révéler leur identité pour les exposer à des représailles est interdit.
+- **Interdiction du metagaming** : 🔴 un magistrat ne peut fonder **aucune décision sur des informations obtenues hors RP** (logs, Discord, stream, écoute HRP). Seuls les éléments régulièrement versés au dossier RP sont exploitables.
+> 🔵 Exemple : un juge apprend via un stream l'emplacement d'un labo. Il ne peut ni l'évoquer, ni en tenir compte : seule une preuve produite en RP par l'accusation peut fonder sa décision.` },
+    { id:"DOJ-7", t:"Probité et interdiction de la corruption", kw:"ripoux corruption", text:`Tout membre du DOJ est tenu à une probité exemplaire ; les comportements « ripoux » sont interdits. 🔴 Il est interdit de monnayer une décision, un classement sans suite, une réduction de peine ou la fuite d'une information judiciaire.` }
+  ]},
+  { id:"L6T3", title:"Articulation avec la police, détention et contestation", articles:[
+    { id:"DOJ-8", t:"Articulation avec la police", kw:"police ne juge pas free-jail perquisition procureur execution", text:`| Étape | Acteur compétent |
+| Enquête, contrôle, interpellation | Forces de l'ordre |
+| Garde à vue, détention provisoire, délais | Procédure encadrée par la loi |
+| Validation et présence en perquisition | Procureur |
+| Mandats d'arrêt / de perquisition | Procureur (selon l'état d'alerte) |
+| Décision de poursuivre, réquisitions | Procureur |
+| Jugement et prononcé de la peine | Juge |
+| Exécution de la peine (bracelet, TIG, incarcération) | Gouvernement / police, sous contrôle du DOJ |
+- **La police ne juge pas** : elle applique la procédure (arrestation, droits Miranda, garde à vue) mais ne fixe jamais la sentence. 🔴 Le free-jail et l'aggravation arbitraire d'une peine par la police sont interdits.
+- **Contrôle de la régularité** : les vices de procédure commis par la police (droits non lus, fouille irrégulière) peuvent être relevés et affecter la validité de la poursuite.
+- **Effectifs sur scène** : un magistrat ou agent du DOJ présent sur une scène face au camp illégal compte dans le plafond d'effectif légal de la Table de référence.` },
+    { id:"DOJ-9", t:"Détention, présentation au jugement et défense", kw:"detention provisoire accord gouvernement convoi federal", text:`- **Droit à la défense** : être informé des faits, être assisté d'un avocat, présenter des preuves et contre-interroger les témoins.
+- **Détention dans l'attente du jugement** : 🟠 sauf cas exceptionnels, le maintien en détention jusqu'au jugement suppose une **demande préalable approuvée par le Gouvernement**.
+- **Libération : convoi fédéral uniquement** ; 🔴 la prise d'otage d'un magistrat ou d'un agent gouvernemental pour contourner une décision de justice est interdite.` },
+    { id:"DOJ-10", t:"Contestation, voies de recours et sanctions", kw:"contester ticket-lspd haut grade discord gouvernement contestation de scene report", text:`- **Contester une décision** (temps de cellule, casier) : ticket sur le **Discord du Gouvernement (canal ticket-LSPD)** avec les preuves ; traité par un haut gradé. 🔴 Interdit de solliciter un membre du staff en jeu pour « sortir de prison ».
+- **Contester une scène entière** : ticket « contestation de scène » sur le Discord Sensity.
+- **Peines RP** : elles proviennent exclusivement du barème du Code pénal.
+- **Sanctions HRP** : un magistrat qui abuse de son rôle (free-jail, favoritisme, corruption, metagaming, refus de se déporter) s'expose à la Grille de sanctions.
+> 🔵 Une décision défavorable n'est pas en soi un motif de report : le report HRP vise un comportement contraire au règlement, pas le fait d'avoir perdu son procès.` }
+  ]}
+]},
+{ id:"L7", num:"VII", title:"Jugement & exécution des peines", src: JUSTICE_SOURCES.jug, note:`Page du wiki « Jugement & exécution des peines » (mise à jour le 25 octobre 2026). Elle ne définit aucune infraction ni aucun montant d'amende : ceux-ci relèvent du Code pénal.`, titres:[
+  { id:"L7T1", title:"Convocation, bracelet et détention", articles:[
+    { id:"JUG-1", t:"Convocation au jugement et bracelet électronique", kw:"bracelet 4 jours delai convocation avocat gouvernement", text:`Quand la LSPD engage un jugement contre un individu, celui-ci est placé **sous bracelet électronique** et dispose d'un **délai de 4 jours** pour : contacter un avocat ; prendre contact avec le Gouvernement ; se présenter volontairement à son jugement.
+- **Détention avant jugement** : 🟠 sauf cas exceptionnel, le maintien en détention jusqu'au jugement doit faire l'objet d'une **demande préalable approuvée par le Gouvernement**.
+- **Dépassement du délai** : 🔴 passé 4 jours, l'individu est déclaré recherché, arrêté et placé en détention provisoire jusqu'à son jugement.
+- **Évasion de convoi fédéral** : avis de recherche immédiat ; en cas d'arrestation, détention provisoire dans l'attente du second jugement.` },
+    { id:"JUG-2", t:"Retrait du bracelet : convoi uniquement", kw:"retrait bracelet convoi federal otage", text:`🔴 Le bracelet ne peut être retiré que par une intervention sur un **convoi fédéral**. Les prises d'otage visant la LSPD ou le Gouvernement dans le seul but de faire retirer un bracelet sont interdites.
+> 🔵 Exemple : une joueuse laisse expirer les 4 jours sans se présenter : elle devient recherchée et peut être placée en détention provisoire jusqu'à l'audience. Enlever un policier ne la « libère » pas.` }
+  ]},
+  { id:"L7T2", title:"Exécution des peines", articles:[
+    { id:"JUG-3", t:"Travaux d'intérêt général (TIG)", kw:"tig travaux interet general bolingbroke ban", text:`Lors du jugement, des TIG peuvent être prononcés **à la place d'une peine de prison ferme**, afin d'éviter les bannissements temporaires injustifiés et de préserver la continuité du roleplay. Le condamné à un TIG :
+- 🟠 est placé sous bracelet gouvernemental ;
+- doit accomplir l'objectif précis défini par le juge ou le Gouvernement ;
+- doit s'acquitter de l'amende prononcée (barème du Code pénal) ;
+- 🔴 ne peut commettre aucun acte illégal pendant toute la durée du TIG.
+**Manquement** : 🔴 en cas de non-respect des objectifs ou de récidive pendant le TIG, transfert à la prison fédérale de **Bolingbroke** et bannissement temporaire équivalent à la peine initialement encourue (Grille de sanctions).` },
+    { id:"JUG-4", t:"Peine fédérale à vie", kw:"perpetuite federale wipe 3 jours", text:`🔴 En cas de peine fédérale à perpétuité : **wipe complet du personnage** (perte totale des biens et de l'identité) et **interdiction de rejoindre un groupe illégal pendant 3 jours** à compter du nouveau départ. Le wipe est un modificateur de sanction encadré par la Grille de sanctions.` }
+  ]},
+  { id:"L7T3", title:"Casier judiciaire, contestation et archivage", articles:[
+    { id:"JUG-5", t:"Casier judiciaire et lignes noires", kw:"ligne noire casier recidive non-cumul meurtre etat", text:`Le casier retrace les fiches d'arrestation et les condamnations. Il sert de référence pour le non-cumul (Art. 6.7, 6.11) et le décompte de la récidive (Art. 5.5).
+**Lignes noires** : certaines condamnations sont inscrites sous forme de « ligne noire » signalant les infractions les plus graves (délits aggravés et crimes). Les **meurtres et les infractions dirigées contre l'État** constituent la catégorie la plus lourde du casier.` },
+    { id:"JUG-6", t:"Contestation du casier ou du temps de cellule", kw:"contester ticket-lspd haut grade contestation de scene", text:`Pour contester son temps de cellule ou une inscription au casier : ticket sur le **Discord du Gouvernement (canal ticket-LSPD)** avec les preuves ; la demande est traitée par un haut gradé. 🔴 Interdit de contacter un membre du staff en jeu pour sortir de prison. La contestation d'une scène entière passe par le canal **contestation-de-scène** du Discord Sensity.` },
+    { id:"JUG-7", t:"Archivage du casier contre paiement", kw:"archiver archivage casier 200000 300000 payer legal ems gouvernement", text:`Un joueur qui souhaite intégrer une structure légale **autre que les forces de l'ordre** (Gouvernement, EMS…) peut faire **archiver** son casier (et non le supprimer) contre paiement en jeu. Pour la police, un wipe reste obligatoire.
+| Type de casier | Archivage | Coût |
+| Casier sans ligne noire (jusqu'au délit majeur) | 🟢 Autorisé | 200 000 $ |
+| Casier avec ligne noire | 🟠 Autorisé | 300 000 $ |
+| Casier comportant des meurtres ou des infractions contre l'État | 🔴 Non archivable | — |
+🔵 À ne pas confondre avec la **suppression** d'un casier (Art. 85.3 : vice reconnu ou accord validé par la DOJ, coût = amende × 2).` },
+    { id:"JUG-8", t:"Nouveau départ légal (wipe hors mort RP)", kw:"wipe nouveau depart legal", text:`Un joueur peut, sous conditions strictes, demander un wipe pour repartir sur une base légale quand son casier est incompatible avec une faction publique (voir « Wipe RP & réhabilitation »). Ce n'est pas un moyen de nettoyer un casier sans justification RP.` }
+  ]}
+]},
+{ id:"L8", num:"VIII", title:"Wipe RP & réhabilitation", src: JUSTICE_SOURCES.wipe, note:`Page du wiki « Wipe RP & réhabilitation » (mise à jour le 25 octobre 2026). La version applicable est celle en vigueur au moment des faits.`, titres:[
+  { id:"L8T1", title:"Passage au légal", articles:[
+    { id:"WIPE-1", t:"Objet et champ d'application", kw:"rehabilitation passer legal casier charge", text:`En dehors des cas de Mort RP, un joueur peut régulariser la situation judiciaire de son personnage pour entamer une aventure légale, s'il a un casier trop chargé ou un passé incompatible avec une faction publique (LSPD, Gouvernement, EMS…). 🔴 Ce n'est pas un moyen de nettoyer un casier sans justification RP.` },
+    { id:"WIPE-2", t:"Les deux voies de passage au statut légal", kw:"paiement casier archive wipe complet cout", text:`| Voie | Personnage | Casier | Coût |
+| Paiement du casier (hors forces de l'ordre) | Conservé | Archivé, non supprimé | 200 000 $ (300 000 $ avec ligne noire) |
+| Wipe RP complet | Réinitialisé : perte totale des biens et de l'identité | Disparaît avec le personnage | Aucun |
+🔵 Certains casiers ne sont pas rachetables ; pour rejoindre les forces de l'ordre, seul le wipe est possible.` },
+    { id:"WIPE-3", t:"Conditions d'éligibilité", kw:"eligibilite candidature lspd ems gouvernement", text:`🟢 Éligible si toutes les conditions sont réunies : changer totalement de direction RP (du criminel au légal) ; candidature déposée auprès de la LSPD, du Gouvernement, de l'EMS ou d'une entité publique ; candidature acceptée sous réserve d'un casier régularisé (payé ou effacé par wipe ; wipe seulement pour les forces de l'ordre) ; accepter le coût de la voie choisie. 🔴 Une demande sans projet RP légal réel et cohérent est refusée.` }
+  ]},
+  { id:"L8T2", title:"Wipe complet, cas obligatoires et anti-contournement", articles:[
+    { id:"WIPE-4", t:"Wipe RP complet et interdits après un wipe", kw:"wipe proche vengeance meme nom rang", text:`Le wipe réinitialise le personnage (argent, véhicules, objets, identité) ; le nouveau personnage démarre avec un casier vierge. Après un wipe, il est interdit : 🔴 d'incarner un proche de l'ancien personnage pour le venger ; 🔴 de reprendre les mêmes nom et prénom ; 🔴 de retrouver son entreprise ou son groupe illégal au même rang.` },
+    { id:"WIPE-5", t:"Cas de wipe obligatoire et règle des 2 groupes", kw:"wipe obligatoire creation groupe forces de l'ordre 2 groupes", text:`Un wipe est imposé d'office : pour faire une **demande de création de groupe** ; pour **rejoindre les forces de l'ordre** ; à la **fin du deuxième groupe illégal** du personnage.
+**Règle des 2 groupes** : un personnage peut être lié à 2 groupes maximum dans sa vie (appartenance ou histoire). Une exclusion, y compris pour inactivité (AFK), compte comme un groupe. Après la fin du 2ᵉ groupe (départ, dissolution, exclusion) : wipe obligatoire. Changer de groupe avant cette limite n'impose pas de wipe, mais expose l'ancien membre à une Mort RP de son ancien lead pendant 1 semaine.` },
+    { id:"WIPE-6", t:"Anti-contournement et incompatibilités", kw:"contournement dons stuff cache achat boutique", text:`Toute tentative de récupérer les anciennes possessions est interdite (dons suspects au nouveau personnage, stuff caché avant le wipe dans un hangar, chez un collègue ou sur un autre compte). 🔴 Sanction : nouveau wipe immédiat et perte d'un achat boutique, aggravée à chaque tentative.
+🔴 Il est interdit de faire partie d'une organisation ou d'un gang tout en jouant un RP légal dans une entreprise publique (LSPD, Gouvernement…).` }
+  ]}
+]}
+);
+Object.assign(SYNONYMS, {
+  "bracelet": ["bracelet"], "convoi": ["convoi federal", "convoi"], "tig": ["tig", "travaux d'interet general"], "travaux": ["tig"],
+  "wipe": ["wipe"], "archiver": ["archivage"], "archivage": ["archivage"], "archive": ["archivage"], "rehabilitation": ["rehabilitation", "wipe"],
+  "ligne": ["ligne noire"], "noire": ["ligne noire"], "juge": ["juge", "magistrat"], "magistrat": ["magistrat", "juge"], "doj": ["doj"],
+  "metagaming": ["metagaming"], "hrp": ["hors rp", "metagaming"], "perpetuite": ["perpetuite", "peine federale"], "bolingbroke": ["bolingbroke"],
+  "detention": ["detention", "detention provisoire"], "procureur": ["procureur"], "deport": ["deport", "conflit d'interets"]
+});
+const JUSTICE_TACTIQUES = `
+- (wiki DOJ) Perquisition sans validation d'un procureur ou sans procureur présent pendant l'opération : perquisition irrégulière (motifs 24, 26 ; DOJ « Le procureur ») → ce qui y a été trouvé tombe.
+- (wiki DOJ / Jugement) Détention avant jugement sans demande approuvée par le Gouvernement : détention irrégulière (motif 18) → à soulever, et à faire valoir pour la peine.
+- (wiki DOJ) Le juge ne peut ni créer une peine ni dépasser le maximum du barème pour l'infraction retenue ; une peine sans fondement RP démontré est un free-jail interdit → contester toute réquisition hors barème (Art. 6.10).
+- (wiki DOJ) Aucune décision ne peut s'appuyer sur une information hors RP (logs, Discord, stream) : seul ce qui est versé au dossier RP compte → contester tout élément de l'accusation qui n'a pas été produit en jeu.
+- (wiki DOJ) Conflit d'intérêts : un magistrat lié au client, à son groupe ou à l'affaire doit se déporter ; un agent qui a enquêté ne peut ni poursuivre ni juger.
+- (wiki Jugement) TIG à la place de la prison ferme pour éviter un bannissement ; le client sous TIG ne doit commettre aucun acte illégal (sinon Bolingbroke). Sous bracelet, il a 4 jours pour contacter un avocat et se présenter : après, il est recherché et détenu.
+- (wiki Jugement) Enjeux à rappeler au client : les meurtres et infractions contre l'État sont des « lignes noires » qui rendent le casier non archivable ; une perpétuité fédérale entraîne un wipe complet. Faire tomber ces chefs en priorité.
+- (wiki Jugement / Wipe) Alternative hors défense : archivage payant du casier (200 000 $, 300 000 $ avec ligne noire, impossible avec meurtre ou infraction contre l'État) pour rejoindre une structure légale hors police ; ne pas confondre avec la suppression (Art. 85.3 : vice ou accord DOJ, amende × 2).
+- (wiki DOJ / Jugement) Voie de contestation d'un casier ou d'un temps de cellule : ticket sur le Discord du Gouvernement, canal ticket-LSPD, avec les preuves, traité par un haut gradé ; ticket « Vice de procédure » avec avocat pour un vice (Art. 87) ; contestation de scène sur le Discord Sensity.`;
+</script>
+<script>
 /* La page sait si elle est ouverte dans Claude (l'IA n'existe que là) */
 const HAS_VIEWER = !!(window.claude && typeof window.claude.use === "function");
 window.CC_UNLOCKED = false;
@@ -1692,6 +1834,7 @@ const $$ = (s, el=document) => Array.from(el.querySelectorAll(s));
 const esc = s => String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const norm = s => String(s).toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,"").replace(/[’'`]/g," ").replace(/[^a-z0-9.\-]+/g," ").replace(/\s+/g," ").trim();
 const fmt$ = n => new Intl.NumberFormat("fr-FR").format(Math.round(n)).replace(/ | /g," ") + " $";
+const artLabel = id => /^(DOJ|JUG|WIPE)-/.test(id) ? id : "Art. " + id;
 const fmtMin = m => m === 0 ? "Aucune" : m + " min";
 const fmtGav = m => { const mm = Math.floor(m + 1e-9), ss = Math.round((m - mm) * 60); return mm + " min" + (ss ? " " + String(ss).padStart(2, "0") : ""); };
 const ppaValue = lvl => lvl ? PPA_LEVELS[lvl - 1].cumul : 0;
@@ -1715,7 +1858,8 @@ function inline(s, re){
   h = h.replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>");
   h = h.replace(/(^|[^*])\*([^*\n]+?)\*/g, "$1<em>$2</em>");
   h = h.replace(/`([^`]+)`/g, "<code>$1</code>");
-  h = h.replace(/Art\.\s?(C-\d+-\d+|\d+(?:\.\d+)?)(?![\d.x])/g, (m, id) => `<a class="ref" data-art="${id}">${m}</a>`);
+  h = h.replace(/Art\.\s?(C-\d+-\d+|\d+(?:\.\d+)?)(?!\d|\.\d|\.x|x)/g, (m, id) => `<a class="ref" data-art="${id}">${m}</a>`);
+  h = h.replace(/\b((?:DOJ|JUG|WIPE)-\d{1,2})\b/g, (m, id) => `<a class="ref" data-art="${id}">${m}</a>`);
   h = h.replace(/(motifs?\s+)?n°\s?(\d{1,2})/g, (m, pre, n) => (pre||"") + `<a class="ref" data-vice="${n}">n°${n}</a>`);
   h = h.replace(/\b(motif)\s(\d{1,2})\b/g, (m, w, n) => `<a class="ref" data-vice="${n}">${w} ${n}</a>`);
   return markOutside(h, re);
@@ -1762,7 +1906,7 @@ const catOfTitre = { L2T2:"mineur", L2T3:"moyen", L2T4:"majeur", L2T5:"crime" };
 BOOKS.forEach(book => book.titres.forEach(titre => {
   titre.articles.forEach(a => {
     ART.set(a.id, { a, titre, book });
-    const title = "Art. " + a.id + (a.t ? " · " + a.t : "");
+    const title = artLabel(a.id) + (a.t ? " · " + a.t : "");
     INDEX.push({ kind: book.id === "L5" ? "civil" : "article", id: a.id, title, path: book.title + " › " + titre.title, text: a.text,
       normTitle: norm(title + " " + (a.kw||"")), norm: norm(a.text), ref: a });
   });
@@ -1894,10 +2038,12 @@ const QUICK = [
   { v:"3 motifs", k:"Vices graves : n°1, n°5, n°12 (casier supprimé)", r:"Art. 82.1", q:"vice grave" },
   { v:"1 semaine", k:"Validité d'un mandat d'arrêt", r:"Art. 83.1", q:"83.1" },
   { v:"Obligatoire", k:"Jugement pour tout crime et à 5 récidives", r:"Art. 84.2", q:"84.2" },
-  { v:"96 h", k:"Pour ouvrir le ticket DOJ après demande de jugement", r:"Art. 84.2", q:"84.2" },
+  { v:"4 jours", k:"Sous bracelet après une demande de jugement : avocat, Gouvernement, se présenter (sinon recherché et détenu)", r:"Jugement & exécution · Art. 84.2", q:"bracelet" },
   { v:"2 h", k:"Dépôt des preuves et témoins avant l'audience", r:"Art. 84.3", q:"84.3" },
   { v:"+10 % / niv.", k:"Majoration de récidive, plafond +50 %", r:"Art. 5.5", q:"5.5" },
   { v:"× 2", k:"Coût de suppression d'un casier (amende × 2)", r:"Art. 85.3", q:"85.3" },
+  { v:"Procureur", k:"Toute perquisition doit être validée par un procureur, présent pendant l'opération", r:"DOJ & magistrature", q:"perquisition procureur" },
+  { v:"200 000 $", k:"Archivage du casier (300 000 $ avec ligne noire, impossible avec meurtre ou infraction contre l'État)", r:"Jugement & exécution", q:"archivage" },
   { v:"10 000 $", k:"Plafond de liquide : au-delà, l'argent est saisi (répertoire LSPD)", r:"Détention d'argent non déclaré", q:"argent liquide" },
   { v:"25k → 250k", k:"PPA 1 à 4 : 25 000, +50 000, +75 000, +100 000 $, dans l'ordre, certificat EMS requis", r:"Répertoire LSPD · PPA", q:"ppa" }
 ];
@@ -1927,7 +2073,7 @@ document.addEventListener("keydown", e => { if (e.key === "Escape") closeDrawer(
 function articleHTML(id){
   const r = ART.get(id); if (!r) return `<p class="muted">Article ${esc(id)} introuvable.</p>`;
   const { a, titre, book } = r;
-  let h = `<div class="path small muted">${esc(book.title)} › ${esc(titre.title)}</div><h3>Art. ${esc(a.id)}${a.t ? " · " + esc(a.t) : ""}</h3><div class="md">${md(a.text)}</div>`;
+  let h = `<div class="path small muted">${esc(book.title)} › ${esc(titre.title)}</div><h3>${esc(artLabel(a.id))}${a.t ? " · " + esc(a.t) : ""}</h3><div class="md">${md(a.text)}</div>`;
   if (a.special === "vices") h += vicesHTML(null, true);
   h += `<div><button class="btn ghost sm" type="button" data-open="${esc(a.id)}">Voir dans le code complet →</button></div>`;
   return h;
@@ -2129,7 +2275,7 @@ $("#mandats").innerHTML = MANDATS.map(m => `<div class="mandat"><div class="row"
       text += `<div class="titre" id="${titre.id}">${book.id === "L3" ? "" : `<h3>${esc(titre.title)}</h3>`}${titre.intro ? `<div class="intro">${esc(titre.intro)}</div>` : ""}`;
       if (titre.bareme) text += baremeTable(titre.bareme) + `<div class="small muted">Précisions du code intégrées dans la colonne « Précision ».</div>`;
       titre.articles.forEach(a => {
-        text += `<div class="article" id="art-${a.id.replace(/\./g,"_")}"><div class="ah"><span class="id">Art. ${esc(a.id)}</span>${a.t ? `<span class="t">${esc(a.t)}</span>` : ""}</div><div class="md">${md(a.text)}</div>${a.special === "vices" ? vicesHTML(null, false) : ""}</div>`;
+        text += `<div class="article" id="art-${a.id.replace(/\./g,"_")}"><div class="ah"><span class="id">${esc(artLabel(a.id))}</span>${a.t ? `<span class="t">${esc(a.t)}</span>` : ""}</div><div class="md">${md(a.text)}</div>${a.special === "vices" ? vicesHTML(null, false) : ""}</div>`;
       });
       if (titre.outro) text += `<div class="md panel">${md(titre.outro)}</div>`;
       text += `</div>`;
@@ -2153,7 +2299,7 @@ function buildCodeText(keep){
         INFRACTIONS.filter(i => i.cat === titre.bareme).forEach(i => { out += `- ${i.name} : amende ${amendeLabel(i)} ; GAV : ${fmtMin(i.gav)}${i.note ? " ; précision : " + i.note : ""}\n`; });
       }
       titre.articles.forEach(a => {
-        out += `\nArt. ${a.id}${a.t ? " · " + a.t : ""}. ${a.text}\n`;
+        out += `\n${artLabel(a.id)}${a.t ? " · " + a.t : ""}. ${a.text}\n`;
         if (a.special === "vices"){
           VICE_GROUPS.forEach(g => { out += `${g.title}\n`; VICES.filter(v => v.n >= g.range[0] && v.n <= g.range[1]).forEach(v => { out += `${String(v.n).padStart(2,"0")}. ${v.text}${v.note ? " " + v.note : ""}\n`; }); });
           out += "C. Correspondance avec les catégories de la procédure Ticket :\n" + TICKET_CATS.map(c => `- ${c.num}. ${c.title} : motifs ${c.motifs.join(", ")}`).join("\n") + "\n";
@@ -2167,7 +2313,7 @@ function buildCodeText(keep){
 const CODE_TEXT = buildCodeText();
 const CODE_TEXT_CORE = `CODE PÉNAL DE L'ÉTAT DE SAN ANDREAS (Sensity Life RP) — version du ${SOURCE.updated}, rédigé par ${SOURCE.author}\n` + buildCodeText(b => b.id !== "L5");
 const CODE_TEXT_CIVIL = buildCodeText(b => b.id === "L5");
-let RULES = `Tu es l'assistant du Code pénal de l'État de San Andreas, pour le serveur GTA RP « Sensity Life ». Tu réponds UNIQUEMENT à partir du texte intégral du code fourni ci-dessous (version du ${SOURCE.updated}). Tes règles :
+let RULES = `Tu es l'assistant du Code pénal de l'État de San Andreas, pour le serveur GTA RP « Sensity Life ». Tu réponds UNIQUEMENT à partir du texte intégral du code fourni ci-dessous (Livres I à V) et des pages Justice du wiki qui le complètent (DOJ & magistrature, Jugement & exécution des peines, Wipe RP & réhabilitation) (version du ${SOURCE.updated}). Tes règles :
 1. Précision maximale : cite toujours le ou les articles exacts (« Art. 81.3 », « Art. 82.1 motif n°5 », « Livre II, Titre 3 ») et reprends les montants, durées, délais et conditions exactement comme ils sont écrits. Ne jamais arrondir ni extrapoler.
 2. Si le code ne tranche pas la question, dis-le clairement (« Le code ne précise pas… ») au lieu d'inventer. N'ajoute jamais de règles tirées d'autres serveurs ou du droit réel. Si la question porte sur autre chose que ce code (règles hors-RP du serveur, autre wiki), dis que ce n'est pas dans le code pénal.
 3. Pour un calcul d'amende, applique la méthode de l'Art. 78 dans l'ordre : base du barème (× quantité si « par unité » / « par arme ») → majoration de récidive (Art. 5.5) → coefficient de coopérativité (Art. 5.10) → coûts logistiques → dommages matériels. Montre chaque étape avec les chiffres. Rappelle que la GAV ne dépend pas de la quantité (Art. 7.5) et qu'un seul braquage est retenu par dossier (Art. 7.7).
@@ -2177,7 +2323,7 @@ let RULES = `Tu es l'assistant du Code pénal de l'État de San Andreas, pour le
 7. Armes, objets, stupéfiants, argent : utilise le répertoire LSPD fourni après le code pour dire si une arme est légale, soumise à PPA (et à quel niveau) ou illégale, le prix des PPA, la liste des objets illégaux et le plafond de liquide (10 000 $). Le répertoire fait foi pour le statut ; le code pénal pour la qualification et le barème. Un chef lié à une arme, un objet, des stupéfiants ou de l'argent n'est établi que si le rapport nomme l'arme ou l'objet (et la quantité ou le montant) ; tout objet illégal doit être saisi et déclaré au rapport et au tableau (motifs 1, 3, 9).
 
 9. Charge de la preuve : le rapport d'arrestation est la base légale des poursuites (Art. 81.2) et tout délit non reproché est réputé non commis (Art. 6.1) ; la charge de la preuve pèse sur le ministère public (Art. 6.4). La preuve de la défense est donc d'abord le casier lui-même : ce que le rapport omet, ce qu'il décrit mal, ce qui se contredit. Ne réclame une vidéo ou un témoin que si l'on te dit que le client en dispose ; sinon, n'en parle pas et fonde chaque moyen sur un détail écrit du rapport ou de la fiche.
-10. ${TACTIQUES}
+10. ${TACTIQUES}${JUSTICE_TACTIQUES}
 8. Honoraires : si on te demande un prix, un devis ou ce que coûte une prestation du cabinet, utilise le barème des honoraires fourni après le répertoire (prix déjà majorés du coefficient du cabinet) et rappelle qu'ils sont indicatifs et annoncés avant la prestation.
 
 === TEXTE INTÉGRAL DU CODE ===
@@ -2205,7 +2351,11 @@ function rulesFor(ctx){
   const named = armesTopic ? ARMES.filter(a => t.includes(norm(a.n))) : [];
   const tarifs = mode === "chat" && /\b(tarif|honoraire|devis|factur|prix|cout|combien ca coute)/.test(t);
   const tactiques = mode !== "chat" || /\b(defen|vice|contest|casier|plaid|jugement|proces|negoci|avocat)/.test(t);
-  let out = RULES_HEAD + CODE_TEXT_CORE + (civil ? CODE_TEXT_CIVIL : "\n(Livre V, droit civil, omis : hors sujet ici.)\n");
+  const wipeTopic = /\b(wipe|rehabilit|legal|archiv|groupe illegal|nouveau depart|ems|recrut|lspd candidature)/.test(t);
+  const justiceTopic = mode !== "chat" || wipeTopic || /\b(juge|magistrat|procureur|perquisi|bracelet|tig|travaux|jugement|proces|detention|archiv|ligne noire|casier|contest|convoi|perpetu|bolingbroke|metagaming|hrp|deport|doj)/.test(t);
+  let core = CODE_TEXT_CORE; if (!wipeTopic) core = core.replace(/\n# Wipe RP & réhabilitation[\s\S]*$/, "\n(Page « Wipe RP & réhabilitation » omise : hors sujet ici.)\n");
+  if (!justiceTopic) core = core.replace(/\n# DOJ & magistrature[\s\S]*?(?=\n\(Page « Wipe|\n# Wipe RP|$)/, "\n(Pages « DOJ & magistrature » et « Jugement & exécution des peines » omises : hors sujet ici.)\n");
+  let out = RULES_HEAD + core + (civil ? CODE_TEXT_CIVIL : "\n(Livre V, droit civil, omis : hors sujet ici.)\n");
   out += fullArmes ? buildRepertoireText() : (armesTopic || mode !== "chat") ? buildRepertoireCompact(named) : "";
   if (tarifs) out += buildTarifsText();
   if (!tactiques) out = out.replace(/\n10\. TACTIQUES DE DÉFENSE[\s\S]*?(?=\n8\. Honoraires)/, "\n");
@@ -2312,6 +2462,9 @@ const ISSUES = [
   { g:"III. Fouille, saisie et perquisition", id:"fouille_motif", label:"Fouille réalisée sans motif valable", motifs:[22] },
   { g:"III. Fouille, saisie et perquisition", id:"saisie", label:"Saisie sans justification ou sans l'autorisation nécessaire", motifs:[23] },
   { g:"III. Fouille, saisie et perquisition", id:"perquisition", label:"Perquisition sans mandat alors qu'il était obligatoire", motifs:[24] },
+  { g:"III. Fouille, saisie et perquisition", id:"perqui_procureur", label:"Perquisition sans validation d'un procureur ou sans procureur présent (wiki DOJ)", motifs:[24,26] },
+  { g:"I. Interpellation", id:"detention_sans_accord", label:"Détenu jusqu'au jugement sans accord préalable du Gouvernement (wiki Jugement)", motifs:[18] },
+  { g:"VI. Abus de pouvoir", id:"metagaming", label:"Élément de l'accusation obtenu hors RP (logs, Discord, stream) (wiki DOJ)", motifs:[26,33] },
   { g:"III. Fouille, saisie et perquisition", id:"preuve_illegale", label:"Preuve issue d'une fouille ou perquisition illégale", motifs:[26] },
   { g:"III. Fouille, saisie et perquisition", id:"objet_illegal", label:"Objet illégal non retiré lors de l'arrestation", motifs:[1], grave:true },
   { g:"III. Fouille, saisie et perquisition", id:"objets_saisis", label:"Objets saisis non mentionnés dans les rapports", motifs:[9] },
